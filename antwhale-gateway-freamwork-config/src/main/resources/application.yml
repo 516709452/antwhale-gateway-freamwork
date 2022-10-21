@@ -1,0 +1,32 @@
+# 服务端口
+server:
+  port: 8999
+# 服务名
+spring:
+  application:
+    name: antwhale-gateway-freamwork
+  profiles:
+    active: dev
+  cloud:
+    #nacos服务地址
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+    #gateway网关配置
+    gateway:
+      #开启从注册中心动态创建路由的功能，利用微服务名进行路由
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: antwhale-auth-dowork #路由的id，没有固定规则但要求唯一
+#          uri: http://localhost:8031 #lb->负载均衡 根据注册中心的服务名匹配服务
+          uri: lb://antwhale-auth-dowork #lb->负载均衡匹配后提供服务的路由地址
+          predicates:
+            - Path=/antwhale-auth-dowork/**
+
+        - id: antwhale-user-dowork
+#          uri: http://localhost:8032
+          uri: lb://antwhale-user-dowork #lb->负载均衡 根据注册中心的服务名匹配服务
+          predicates:
+              - Path=/*
