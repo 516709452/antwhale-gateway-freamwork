@@ -1,6 +1,8 @@
 package org.antwhale.config;
 
 import com.alibaba.nacos.shaded.com.google.gson.Gson;
+import org.antwhale.feign.auth.CheckApiAuthClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.context.ApplicationContext;
@@ -26,6 +28,8 @@ import java.util.Map;
  * @Description:
  */
 public class CustomGlobaFilter implements GlobalFilter, Ordered {
+    @Autowired
+    private CheckApiAuthClient checkApiAuthClient;
     /**
      * @author 何欢
      * @Date 20:31 2022/10/20
@@ -48,10 +52,11 @@ public class CustomGlobaFilter implements GlobalFilter, Ordered {
                 return chain.filter(exchange);
             }
             return interceptRequest(response);
-
-//            return response.setComplete();
         }
-        //含有token,对token进行验证
+        //不为空访问认证中心校验token是否符合规则：
+        Map<String,String> tokenMap = new HashMap<>();
+        tokenMap.put("token", token);
+        checkApiAuthClient.cehckTokenController(tokenMap);
         return chain.filter(exchange);
     }
 
@@ -89,7 +94,7 @@ public class CustomGlobaFilter implements GlobalFilter, Ordered {
      **/
     private Boolean isLoginRequest(ServerHttpRequest request) {
         String path = request.getPath().toString();
-        return path.contains("login/goLogin") ? true : false;
+        return "/antwhale-auth-dowork/login/goLogin,/antwhale-auth-dowork/captchaImage".contains(path) ? true : false;
     }
 
     /**
