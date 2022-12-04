@@ -107,7 +107,7 @@ public class CustomGlobaFilter implements GlobalFilter, Ordered {
         DataBuffer buffer = null;
         try {
             bodyMap.put("code", "401");
-            bodyMap.put("msg", "请先进行登录");
+            bodyMap.put("message", "请先进行登录");
 
             Gson gson = new Gson();
             byte[] bytes = gson.toJson(bodyMap).getBytes("utf-8");
