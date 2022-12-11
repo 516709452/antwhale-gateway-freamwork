@@ -35,6 +35,11 @@ spring:
           uri: lb://antwhale-edu-dowork #lb->负载均衡 根据注册中心的服务名匹配服务
           predicates:
               - Path=/antwhale-edu-dowork/**
+
+        - id: antwhale-web-dowork
+          uri: lb://antwhale-web-dowork #lb->负载均衡 根据注册中心的服务名匹配服务
+          predicates:
+            - Path=/antwhale-web-dowork/**
 #feign - 各个服务名称配置
 feignclient:
   authdowork:
