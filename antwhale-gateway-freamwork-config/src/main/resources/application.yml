@@ -10,8 +10,7 @@ spring:
   cloud:
     #nacos服务地址
     nacos:
-      config:
-        server-addr: 127.0.0.1:8848
+      server-addr: 43.143.131.15:8848
     #gateway网关配置
     gateway:
       #开启从注册中心动态创建路由的功能，利用微服务名进行路由

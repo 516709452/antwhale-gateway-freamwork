@@ -94,7 +94,7 @@ public class CustomGlobaFilter implements GlobalFilter, Ordered {
      **/
     private Boolean isLoginRequest(ServerHttpRequest request) {
         String path = request.getPath().toString();
-        return "/antwhale-auth-dowork/login/goLogin,/antwhale-auth-dowork/captchaImage".contains(path) ? true : false;
+        return "/antwhale-auth-dowork/login/goLogin,/antwhale-auth-dowork/captchaImage,/antwhale-auth-dowork/checkCaptcha".contains(path) ? true : false;
     }
 
     /**
